@@ -185,12 +185,12 @@ exports.labourton=async(req,res)=>{
 }
 exports.companytons=async(req,res)=>{
     const company = await allschema.find().sort({ date: 1 });
-    const data= company.map((ton)=> {return({date:ton.date,broker:ton.brokername,ton:ton.ton,id:ton._id,company:ton.companyname})}) 
+    const data= company.map((ton)=> {return({date:ton.date,broker:ton.brokername,ton:ton.ton,id:ton._id,company:ton.companyname,payment:ton.paytolabour})}) 
     res.json(data)
 }
 exports.companyton=async(req,res)=>{
     const company= await allSchema.find({companyname:req.body.companyname}).sort({ date: 1 });
-    const data= company.map((ton)=> {return({date:ton.date,broker:ton.brokername,ton:ton.ton,id:ton._id,company:ton.companyname,type:ton.type})}) 
+    const data= company.map((ton)=> {return({date:ton.date,broker:ton.brokername,ton:ton.ton,id:ton._id,company:ton.companyname,type:ton.type,payment:ton.paytolabour})}) 
     res.json(data)
 }
 
