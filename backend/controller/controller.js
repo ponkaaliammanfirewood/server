@@ -114,7 +114,7 @@ exports.tons=async(req,res)=>{
     const ton=await allSchema.find({labname:req.body.labname}).sort({ date: 1 });
    const data= ton.map((ton)=> {return({date:ton.date,location:ton.location,broker:ton.brokername,ton:ton.ton,payment:ton.paytolabour,id:ton._id,type:ton.type})}) 
    const total=ton.map((ton)=>{return ton.ton})
-   const sum = total.reduce((acc, currentValue) => Number(acc) + Number(currentValue), 0);
+   const sum = total.reduce((acc, currentValue) => Number(acc) + Number(currentValue), 0).toFixed(2);
       res.json({data,sum})
 }
 exports.paytolabour=async(req,res)=>{
