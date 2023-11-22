@@ -9,7 +9,9 @@ const broker=require('../model/names/brokername');
 const brokerAmount = require('../model/brokerAmount');
 const companyname = require('../model/names/companyname');
 const allschema = require('../model/allschema');
-const suitAmount=require('../model/suitschema')
+const suitAmount=require('../model/suitschema');
+const type = require('../model/typeschema');
+
 const currentDate = new Date();
 
 const year = currentDate.getFullYear();
@@ -38,7 +40,8 @@ exports.add=async(req,res)=>{
         location:req.body.location,
         paytolabour:req.body.paytolabour,
         paytobroker:req.body.paytobroker,
-        
+        type:req.body.type,
+
 
     }).then((all)=>{
         res.json({message:"success"})
@@ -102,12 +105,14 @@ exports.names=async(req,res)=>{
     const companyname=await company.find()
     const labourname=await labour.find()
     const brokername= await broker.find()
-    res.json({companyname:companyname,labourname:labourname,brokername:brokername})
+    const typename=await type.find()
+
+    res.json({companyname:companyname,labourname:labourname,brokername:brokername,typename:typename})
 }
 exports.tons=async(req,res)=>{
 
     const ton=await allSchema.find({labname:req.body.labname}).sort({ date: 1 });
-   const data= ton.map((ton)=> {return({date:ton.date,location:ton.location,broker:ton.brokername,ton:ton.ton,payment:ton.paytolabour,id:ton._id})}) 
+   const data= ton.map((ton)=> {return({date:ton.date,location:ton.location,broker:ton.brokername,ton:ton.ton,payment:ton.paytolabour,id:ton._id,type:ton.type})}) 
    const total=ton.map((ton)=>{return ton.ton})
    const sum = total.reduce((acc, currentValue) => Number(acc) + Number(currentValue), 0);
       res.json({data,sum})
@@ -127,7 +132,7 @@ exports.brokerton=async(req,res)=>{
 exports.brokertons=async(req,res)=>{
 
     const ton=await allSchema.find({brokername:req.body.brokername}).sort({ date: 1 });
-   const data= ton.map((ton)=> {return({date:ton.date,location:ton.location,broker:ton.brokername,labour:ton.labname,ton:ton.ton,payment:ton.paytobroker,id:ton._id,company:ton.companyname})}) 
+   const data= ton.map((ton)=> {return({date:ton.date,location:ton.location,broker:ton.brokername,labour:ton.labname,ton:ton.ton,payment:ton.paytobroker,id:ton._id,company:ton.companyname,type:ton.type})}) 
    res.json(data)
 }
 exports.brokeramount=async(req,res)=>{
@@ -185,7 +190,7 @@ exports.companytons=async(req,res)=>{
 }
 exports.companyton=async(req,res)=>{
     const company= await allSchema.find({companyname:req.body.companyname}).sort({ date: 1 });
-    const data= company.map((ton)=> {return({date:ton.date,broker:ton.brokername,ton:ton.ton,id:ton._id,company:ton.companyname})}) 
+    const data= company.map((ton)=> {return({date:ton.date,broker:ton.brokername,ton:ton.ton,id:ton._id,company:ton.companyname,type:ton.type})}) 
     res.json(data)
 }
 
