@@ -9,6 +9,7 @@ const allSchema= mongoose.Schema({
     labname:String,
     paytolabour:String,
     paytobroker:String,
+    type:String,
 })
 
 module.exports=mongoose.model("TON",allSchema)
